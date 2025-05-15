@@ -1,0 +1,22 @@
+<!--check in and check out service -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Select to check in or out</h1>
+<!-- can i write the two in only one action?-->
+<form action="/main" method="post">
+    <input type="hidden" name="option" value="in" >
+    <button type="submit">I come to the library</button>
+</form>
+<form action="/main" method="post">
+    <input type="hidden" name="option" value="out">
+    <button type="submit">I go now</button>
+</form>
+<p th:text="${message}"></p>
+</body>
+</html>

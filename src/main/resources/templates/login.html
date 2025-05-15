@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Welcome to libtime</h1>
+<form action="/libtime" method="post">
+    Username: <input type="text" name="username"> <br />
+    Password: <input type="text"  name="password"> <br />
+    <button type="submit">login in</button>
+</form>
+<p th:text="${message}"></p>
+</body>
+</html>

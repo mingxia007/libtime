@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.studiumsystem.libtime.login.common.NotCheckInException;
 import org.studiumsystem.libtime.login.model.LibUser;
 import org.studiumsystem.libtime.login.service.UserSessionManagementService;
 import org.studiumsystem.libtime.login.service.UserService;
@@ -26,34 +27,50 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String getMain(){
+    public String getMain(Model model){
         return "main";
     }
 
 
-    @PostMapping("/main")
-    public String checkOption(
-            @RequestParam String option,
-            RedirectAttributes redirectAttributes,
-            Model model){
+    //check in
+    @PostMapping("/main/checkin")
+    public String checkIn(RedirectAttributes redirectAttributes){
         String username = session.getUsername();
         LibUser libUser = userService.getUserByUsername(username);
-        //can i in other way get user?
-        if (option.equals("in")){
-            redirectAttributes.addFlashAttribute(
-                    "message", "Now have a nice learning time in the biblothek!");
-            userService.checkIn(libUser);
-        }else {
-            redirectAttributes.addFlashAttribute("message", "See you soon!");
-            String todayDuration = userService.chekOut(libUser);
-            redirectAttributes.addFlashAttribute("duration", todayDuration);
-        }
+        redirectAttributes.addFlashAttribute(
+                "message", "Now have a nice learning time in the biblothek!");
+        //why i dont show the message?
+        userService.checkIn(libUser);
         return "redirect:/main/stage";
     }
 
+    //check out
+    //must not chen out when not check in
+    //show stayed time after checked out
+    @PostMapping("/main/checkout")
+    public String checkOut(RedirectAttributes redirectAttributes){
+        String username = session.getUsername();
+        LibUser libUser = userService.getUserByUsername(username);
+        String todayDuration;
+        try{
+            todayDuration = userService.chekOut(libUser);
+        }
+        catch (NotCheckInException e){
+            redirectAttributes.addFlashAttribute("message", "You have not check in today");
+            return "redirect:/main"; //i have trouble hier
+        }
+        redirectAttributes.addFlashAttribute("message", "See you soon!");
+        redirectAttributes.addFlashAttribute("duration", todayDuration);
+        return "redirect:/main/stage";
+    }
+
+
+
+
+
     //goodbye message and show today's learning time
     @GetMapping("/main/stage")
-    public String checkIn(Model model){
+    public String afterCheck(Model model){
         return "check_stage";
     }
 }

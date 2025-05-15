@@ -1,7 +1,7 @@
 package org.studiumsystem.libtime.login.service;
 
 import org.springframework.stereotype.Service;
-import org.studiumsystem.libtime.login.controller.MainController;
+import org.studiumsystem.libtime.login.common.NotCheckInException;
 import org.studiumsystem.libtime.login.model.LibUser;
 import org.studiumsystem.libtime.login.model.TimeSlot;
 import org.studiumsystem.libtime.login.repository.TimeSlotRepository;
@@ -47,9 +47,10 @@ public class UserService {
 
     //record going time
     //return learning duration
+    //if not check in throw Exception n
     public  String chekOut(LibUser libUser){
         TimeSlot timeSlot = timeSlotRepository
-                .findTimeSlotByUserAndDate(libUser.getId(), LocalDate.now()).orElse(null);
+                .findTimeSlotByUserAndDate(libUser.getId(), LocalDate.now()).orElseThrow(NotCheckInException::new);
         LocalTime start = timeSlot.getStartOfLearningDay();
         LocalTime end = LocalTime.now();
         timeSlot.setEndOfLearningDay(end);

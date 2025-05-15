@@ -9,14 +9,12 @@
 <body>
 <h1>Select to check in or out</h1>
 <!-- can i write the two in only one action?-->
-<form action="/main" method="post">
-    <input type="hidden" name="option" value="in" >
+<p th:text="${message}"></p>
+<form action="/main/checkin" method="post">
     <button type="submit">I come to the library</button>
 </form>
-<form action="/main" method="post">
-    <input type="hidden" name="option" value="out">
+<form action="/main/checkout" method="post">
     <button type="submit">I go now</button>
 </form>
-<p th:text="${message}"></p>
 </body>
 </html>

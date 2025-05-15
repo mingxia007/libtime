@@ -7,10 +7,9 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-@Table("users")
-public class User {
+@Table(name = "users")
+public class LibUser {
 
     @Id
     @Column("user_id")
@@ -20,13 +19,9 @@ public class User {
     @Column("password")
     private String password;
 
-    @MappedCollection(idColumn = "user_id")
-    private List<TimeSlot> timeSlots;
-
-    public User(String username, String password){
+    public LibUser(String username, String password){
         this.username = username;
         this.password = password;
-        timeSlots = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -41,10 +36,6 @@ public class User {
         return id;
     }
 
-    public List<TimeSlot> getTimeSlots() {
-        return timeSlots;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -57,7 +48,9 @@ public class User {
         this.id = id;
     }
 
-    public void setTimeSlots(List<TimeSlot> timeSlots) {
-        this.timeSlots = timeSlots;
+
+    @Override
+    public String toString() {
+        return "username: " + username;
     }
 }

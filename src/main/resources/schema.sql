@@ -1,6 +1,10 @@
+DROP TABLE IF EXISTS timeslots;
+--DROP TABLE IF EXISTS users;
+
+
 CREATE TABLE IF NOT EXISTS users(
     user_id BIGSERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL
 );
 
@@ -9,6 +13,6 @@ CREATE TABLE  IF NOT EXISTS timeslots(
     local_date DATE,
     start_time TIME,
     end_time TIME,
-    duration INTERVAL,
-    user_id int NOT NULL REFERENCES users(user_id)
+    duration VARCHAR(50),
+    user_id INT NOT NULL REFERENCES users(user_id)
 );

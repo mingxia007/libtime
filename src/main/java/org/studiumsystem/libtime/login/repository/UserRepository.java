@@ -1,11 +1,17 @@
 package org.studiumsystem.libtime.login.repository;
 
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-import org.studiumsystem.libtime.login.model.User;
 
-import java.util.UUID;
+import org.studiumsystem.libtime.login.model.LibUser;
 
-@Repository
-public interface UserRepository extends CrudRepository<User, UUID>{
+import java.util.Optional;
+
+
+public interface UserRepository extends CrudRepository<LibUser, Long>{
+
+    @Query("SELECT * FROM users WHERE username = :username")
+    Optional<LibUser> findByUsername(String username);
+
 }
+

@@ -7,9 +7,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.studiumsystem.libtime.login.model.LibUser;
+import org.studiumsystem.libtime.login.service.UserSessionManagementService;
+import org.studiumsystem.libtime.login.service.UserService;
+
+import java.util.logging.Logger;
 
 @Controller
 public class MainController {
+
+    private UserService userService;
+    private UserSessionManagementService session;
+    private Logger logger = Logger.getLogger(MainController.class.getName());
+
+    public MainController(UserService userService, UserSessionManagementService session){
+        this.userService = userService;
+        this.session = session;
+    }
 
     @GetMapping("/main")
     public String getMain(){
@@ -18,12 +32,20 @@ public class MainController {
 
 
     @PostMapping("/main")
-    public String checkOption(@RequestParam String option, RedirectAttributes redirectAttributes){
+    public String checkOption(
+            @RequestParam String option,
+            RedirectAttributes redirectAttributes){
+        String username = session.getUsername();
+        LibUser libUser = userService.getUserByUsername(username);
+        //can i in other way get user?
         if (option.equals("in")){
             redirectAttributes.addFlashAttribute(
                     "message", "Now have a nice learning time in the biblothek!");
+            logger.info("user: " + libUser);
+            userService.checkIn(libUser);
         }else {
             redirectAttributes.addFlashAttribute("message", "See you soon!");
+            userService.chekOut(libUser);
         }
         return "redirect:/main/stage";
     }

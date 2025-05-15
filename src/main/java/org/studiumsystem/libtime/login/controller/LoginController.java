@@ -5,15 +5,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.studiumsystem.libtime.login.service.UserSessionManagementService;
 import org.studiumsystem.libtime.login.service.UserService;
+
+import java.util.logging.Logger;
 
 @Controller
 public class LoginController {
 
     private UserService userService;
+    private UserSessionManagementService session;
+    private Logger logger = Logger.getLogger(LoginController.class.getName());
 
-    public LoginController(UserService userService){
+    public LoginController(UserService userService, UserSessionManagementService session){
         this.userService = userService;
+        this.session = session;
     }
 
     @GetMapping("/libtime")
@@ -48,6 +54,7 @@ public class LoginController {
             Model model){
         if (username.equals("xia") && password.equals("2025")) {
             model.addAttribute("message", "Login Succeed");
+            session.setUsername(username);
             return "redirect:/main";
         }
         else {

@@ -28,25 +28,28 @@ public class LoginController {
     }
 
 
-    @GetMapping("/signup")
-    public String signupGet(){
-        return "signup";
+    @GetMapping("/register")
+    public String registerGet(){
+        return "register";
     }
 
-    @PostMapping("/signup")
-    public String signupPost(
+    //create a new account
+    //after create succeed click link return to log in
+    @PostMapping("/register")
+    public String registerPost(
             @RequestParam String username,
             @RequestParam String password,
             Model model
     ){
         //create user object in service
         userService.createUser(username, password);
-        model.addAttribute("message", "You now have a new Account!");
+        model.addAttribute("message", "You now have an new Account!");
         model.addAttribute("username", username);
         model.addAttribute("password", password);
-        return "signup";
+        return "register";
     }
 
+    //log in
     @PostMapping("/libtime")
     public String postLogin(
             @RequestParam String username,

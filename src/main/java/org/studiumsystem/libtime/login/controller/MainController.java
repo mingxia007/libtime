@@ -34,22 +34,24 @@ public class MainController {
     @PostMapping("/main")
     public String checkOption(
             @RequestParam String option,
-            RedirectAttributes redirectAttributes){
+            RedirectAttributes redirectAttributes,
+            Model model){
         String username = session.getUsername();
         LibUser libUser = userService.getUserByUsername(username);
         //can i in other way get user?
         if (option.equals("in")){
             redirectAttributes.addFlashAttribute(
                     "message", "Now have a nice learning time in the biblothek!");
-            logger.info("user: " + libUser);
             userService.checkIn(libUser);
         }else {
             redirectAttributes.addFlashAttribute("message", "See you soon!");
-            userService.chekOut(libUser);
+            String todayDuration = userService.chekOut(libUser);
+            redirectAttributes.addFlashAttribute("duration", todayDuration);
         }
         return "redirect:/main/stage";
     }
 
+    //goodbye message and show today's learning time
     @GetMapping("/main/stage")
     public String checkIn(Model model){
         return "check_stage";

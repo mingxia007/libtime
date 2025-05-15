@@ -45,8 +45,9 @@ public class UserService {
         timeSlotRepository.save(timeSlot);
     }
 
-    public  void chekOut(LibUser libUser){
-        logger.info("User: " + libUser);
+    //record going time
+    //return learning duration
+    public  String chekOut(LibUser libUser){
         TimeSlot timeSlot = timeSlotRepository
                 .findTimeSlotByUserAndDate(libUser.getId(), LocalDate.now()).orElse(null);
         LocalTime start = timeSlot.getStartOfLearningDay();
@@ -55,7 +56,7 @@ public class UserService {
         Duration libDuration = Duration.between(start, end);
         timeSlot.setDurationOfLearningDay(libDuration.toString());
         timeSlotRepository.save(timeSlot);
-        logger.info(timeSlot.toString());
+        return libDuration.toString().replace("PT", "").toLowerCase();
     }
 
 }

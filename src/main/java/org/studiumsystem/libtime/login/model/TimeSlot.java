@@ -12,23 +12,15 @@ import java.time.LocalTime;
 public class TimeSlot {
 
     @Id
-    @Column("timeslot_id")
     private long id;
-    @Column("local_date")
     private LocalDate localDate;
-    @Column("start_time")
-    private LocalTime startOfLearningDay;
-    @Column("end_time")
-    private LocalTime endOfLearningDay;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private String duration;
+    private long userId;
 
-    @Column("duration")
-    private String durationOfLearningDay;
-
-    @Column("user_id")
-    private long user_id;
-
-    public long getUser_id() {
-        return user_id;
+    public long getUserId() {
+        return userId;
     }
 
     public LocalDate getLocalDate() {
@@ -39,49 +31,49 @@ public class TimeSlot {
         return id;
     }
 
-    public String getDurationOfLearningDay() {
-        return durationOfLearningDay;
+    public String getDuration() {
+        return duration;
     }
 
-    public LocalTime getEndOfLearningDay() {
-        return endOfLearningDay;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public LocalTime getStartOfLearningDay() {
-        return startOfLearningDay;
-    }
-
-    public void setEndOfLearningDay(LocalTime endOfLearningDay) {
-        this.endOfLearningDay = endOfLearningDay;
-    }
-
-    public void setStartOfLearningDay(LocalTime startOfLearningDay) {
-        this.startOfLearningDay = startOfLearningDay;
-    }
-
-    public void setLocalDate(LocalDate localDate) {
-        this.localDate = localDate;
-    }
-
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setDurationOfLearningDay(String durationOfLearningDay) {
-        this.durationOfLearningDay = durationOfLearningDay;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     @Override
     public String toString() {
         return "TimeSlot{" +
                 "localDate=" + localDate +
-                ", startOfLearningDay=" + startOfLearningDay +
-                ", endOfLearningDay=" + endOfLearningDay +
-                ", durationOfLearningDay=" + durationOfLearningDay +
+                ", startOfLearningDay=" + startTime +
+                ", endOfLearningDay=" + endTime +
+                ", durationOfLearningDay=" + duration +
                 '}';
     }
 }

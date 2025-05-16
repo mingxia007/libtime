@@ -12,7 +12,7 @@ import java.util.List;
 public class LibUser {
 
     @Id
-    @Column("user_id")
+    @Column("userid")
     private Long id;//auto generate by databank
     @Column("username")
     private String username;

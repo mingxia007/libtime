@@ -1,5 +1,7 @@
 package org.studiumsystem.libtime.login.controller;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +19,10 @@ public class LoginController {
     private UserSessionManagementService session;
     private Logger logger = Logger.getLogger(LoginController.class.getName());
 
-    public LoginController(UserService userService, UserSessionManagementService session){
+    public LoginController(UserService userService,
+                           UserSessionManagementService session,
+                           PasswordEncoder passwordEncoder,
+                           UserDetailsService userDetailsService){
         this.userService = userService;
         this.session = session;
     }
@@ -55,7 +60,10 @@ public class LoginController {
             @RequestParam String username,
             @RequestParam String password,
             Model model){
-        if (username.equals("xia") && password.equals("2025")) {
+        boolean authenticated =  userService.authenUser(username, password);
+        //by formLogin in other page redirect
+        logger.info("Authentication state: " + authenticated);
+        if (authenticated) {
             model.addAttribute("message", "Login Succeed");
             session.setUsername(username);
             return "redirect:/main";

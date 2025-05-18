@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
 
-    @Query("SELECT * FROM timeslots WHERE  userid = :userid")
+    @Query("SELECT * FROM timeslots WHERE  user_id = :userid")
     Optional<TimeSlot> findTimeSlotByUserAndDate(long userid, LocalDate localDate);
 
-    @Query("SELECT * FROM timeslots WHERE  userid = :userid")
+    @Query("SELECT * FROM timeslots WHERE  user_id = :userid")
     Optional<TimeSlot> findTimeSlotByUser(long userid);
 }

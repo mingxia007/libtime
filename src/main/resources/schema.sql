@@ -3,16 +3,16 @@
 
 
 CREATE TABLE IF NOT EXISTS users(
-    userid BIGSERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE  IF NOT EXISTS timeslots(
-    timeslotid BIGSERIAL PRIMARY KEY,
-    localdate DATE,
-    starttime TIME,
-    endtime TIME,
+    id BIGSERIAL PRIMARY KEY,
+    local_date DATE,
+    start_time TIME,
+    end_time TIME,
     duration VARCHAR(50),
-    userid INT NOT NULL REFERENCES users(userid)
+    user_id INT NOT NULL REFERENCES users(id)
 );

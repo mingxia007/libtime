@@ -11,10 +11,11 @@
     Password: <input type="text"  name="password"> <br />
     <button type="submit">login in</button>
 </form>
+<p th:text="${error}" />
+<br />
 <p>Dont have account?</p>
 <form th:action="@{/register}" th:method="get">
     <button type="submit">sign up </button>
 </form>
-<p th:text="${message}"></p>
 </body>
 </html>

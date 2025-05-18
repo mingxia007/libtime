@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class LoginController {
 
     private UserService userService;
-    private UserSessionManagementService session;
     private Logger logger = Logger.getLogger(LoginController.class.getName());
 
     public LoginController(UserService userService,
@@ -24,11 +23,15 @@ public class LoginController {
                            PasswordEncoder passwordEncoder,
                            UserDetailsService userDetailsService){
         this.userService = userService;
-        this.session = session;
     }
 
     @GetMapping("/libtime")
-    public String getLogin(){
+    public String getLogin(
+            @RequestParam(required = false, value = "error") String error,
+            Model model){
+        if (error != null){
+            model.addAttribute("error", "Incorrect username or password!");
+        }
         return "login";
     }
 
@@ -47,30 +50,15 @@ public class LoginController {
             Model model
     ){
         //create user object in service
-        userService.createUser(username, password);
-        model.addAttribute("message", "You now have an new Account!");
-        model.addAttribute("username", username);
-        model.addAttribute("password", password);
+        if (userService.existUser(username)){
+            model.addAttribute("failedMessage",
+                    "The name is already been taken, choose another one");
+
+        }else {
+            userService.createUser(username, password);
+            model.addAttribute("succeedMessage", "You now have an new Account!");
+        }
         return "register";
     }
 
-    //log in
-    @PostMapping("/libtime")
-    public String postLogin(
-            @RequestParam String username,
-            @RequestParam String password,
-            Model model){
-        boolean authenticated =  userService.authenUser(username, password);
-        //by formLogin in other page redirect
-        logger.info("Authentication state: " + authenticated);
-        if (authenticated) {
-            model.addAttribute("message", "Login Succeed");
-            session.setUsername(username);
-            return "redirect:/main";
-        }
-        else {
-            model.addAttribute("message", "Login failed");
-            return "login";
-        }
-    }
 }

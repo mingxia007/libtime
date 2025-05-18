@@ -5,7 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-<p th:text="${message}"></p>
-<span th:text="'Today you stayed in library: ' + ${duration}"></span>
+<p th:text="${message}" />
+<p th:if="${message}">
+    <span th:text="'Today you stayed in library: ' + ${duration}" /> <br />
+    <a th:href="@{/main}">I want to come back to homepage</a> <br />
+    <a th:href="@{/libtime}">I want log out</a>
+</p>
 </body>
 </html>

@@ -12,11 +12,8 @@ import java.util.List;
 public class LibUser {
 
     @Id
-    @Column("userid")
     private Long id;//auto generate by databank
-    @Column("username")
     private String username;
-    @Column("password")
     private String password;
 
     public LibUser(String username, String password){

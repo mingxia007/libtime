@@ -10,9 +10,12 @@
     Username: <input type="text" name="username"> <br />
     Password: <input type="text"  name="password"> <br />
     <button type="submit">create an account</button>
-    <p th:if="${message}">
-        <span th:text="${message}"></span><br>
+    <p th:if="${succeedMessage}">
+        <span th:text="${succeedMessage}"></span><br>
         <a th:href="@{/libtime}">I want log in now</a>
+    </p>
+    <p th:if="${failedMessage}">
+        <span th:text="${failedMessage}"></span><br>
     </p>
 </form>
 </body>

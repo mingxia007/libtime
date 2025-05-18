@@ -1,9 +1,9 @@
 package org.studiumsystem.libtime.login.service;
 
-import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.studiumsystem.libtime.login.common.NotCheckInException;
@@ -37,20 +37,19 @@ public class UserService {
         this.authenticationManager = authenticationManager;
     }
 
-    public boolean createUser(String username, String password){
+    public void createUser(String username, String password){
         String passwordEncodeded = passwordEncoder.encode(password);
         LibUser newLibUser = new LibUser(username, passwordEncodeded);
         userRepository.save(newLibUser);
-        return true;
     }
 
-    public LibUser getUserByUsername(String username){
-        LibUser libUser;
-        libUser =  userRepository.findByUsername(username).orElse(null);
-        return libUser;
+    public boolean existUser(String username){
+        return userRepository.existsByUsername(username);
     }
 
-    public  void checkIn(LibUser libUser){
+
+    public  void checkIn(){
+        LibUser libUser = getUserSuccessAuth();
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setLocalDate(LocalDate.now());
         timeSlot.setStartTime(LocalTime.now());
@@ -58,16 +57,17 @@ public class UserService {
         timeSlotRepository.save(timeSlot);
     }
 
-    public boolean authenUser(String username, String password){
-        return authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username, password))
-                .isAuthenticated();
+    //get LibUser after successful authentication in log in
+    private LibUser getUserSuccessAuth(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username).orElseThrow();
     }
 
     //record going time
     //return learning duration
     //if not check in throw Exception n
-    public  String chekOut(LibUser libUser){
+    public  String chekOut(){
+        LibUser libUser = getUserSuccessAuth();
         TimeSlot timeSlot = timeSlotRepository
                 .findTimeSlotByUserAndDate(libUser.getId(), LocalDate.now())
                 .orElseThrow(NotCheckInException::new);
@@ -77,6 +77,7 @@ public class UserService {
         Duration libDuration = Duration.between(start, end);
         timeSlot.setDuration(libDuration.toString());
         timeSlotRepository.save(timeSlot);
+        //duration in database in form "8h6m4s"
         return libDuration.toString().replace("PT", "").toLowerCase();
     }
 

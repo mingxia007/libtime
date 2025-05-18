@@ -1,4 +1,4 @@
-package org.studiumsystem.libtime.login.model;
+package org.studiumsystem.libtime.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -16,8 +16,24 @@ public class TimeSlot {
     private LocalDate localDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private String duration;
+    private String duration;//in form of 8h8m8s
     private long userId;
+
+
+    //parse string duration to Duration instance
+    public Duration getDurationInstance(){
+        if (duration == null)
+            return Duration.ofSeconds(0);
+        String toParse = "PT" + duration.replace('h', 'H')
+                .replace('m', 'M')
+                .replace('s','S');
+        return Duration.parse(toParse);
+    }
+
+    public static String durationToString(Duration duration){
+        return duration.toString().replace("PT", "").toLowerCase();
+    }
+
 
     public long getUserId() {
         return userId;

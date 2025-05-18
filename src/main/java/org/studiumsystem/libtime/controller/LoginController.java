@@ -1,4 +1,4 @@
-package org.studiumsystem.libtime.login.controller;
+package org.studiumsystem.libtime.controller;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.studiumsystem.libtime.login.service.UserService;
+import org.studiumsystem.libtime.service.UserService;
 
 import java.util.logging.Logger;
 

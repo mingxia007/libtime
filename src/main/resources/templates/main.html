@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Your records in the current week</h1>
+    <h2 th:text="'You have stayed ' + ${totalTime} +' in library this week'"></h2>
     <table>
         <tr th:each="timeslot: ${timeslotsToShow}">
             <td th:text="'Date: '+ ${timeslot.localDate}" />
@@ -22,8 +23,7 @@
         <button type="submit">I go now</button>
     </form>
     <br/>
-    <a href="/logout">
-        <button type="button">Log out</button>
-    </a>
+    <a href="/tasks">See my to do list</a> <br />
+    <a href="/logout">log out</a>
 </body>
 </html>

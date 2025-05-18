@@ -1,9 +1,9 @@
-package org.studiumsystem.libtime.login.repository;
+package org.studiumsystem.libtime.repository;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import org.studiumsystem.libtime.login.model.LibUser;
+import org.studiumsystem.libtime.model.LibUser;
 
 import java.util.Optional;
 

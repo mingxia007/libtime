@@ -1,23 +1,21 @@
-package org.studiumsystem.libtime.login.service;
+package org.studiumsystem.libtime.service;
 
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.studiumsystem.libtime.login.common.NotCheckInException;
-import org.studiumsystem.libtime.login.model.LibUser;
-import org.studiumsystem.libtime.login.model.TimeSlot;
-import org.studiumsystem.libtime.login.repository.TimeSlotRepository;
-import org.studiumsystem.libtime.login.repository.UserRepository;
+import org.studiumsystem.libtime.common.NotCheckInException;
+import org.studiumsystem.libtime.model.LibUser;
+import org.studiumsystem.libtime.model.Task;
+import org.studiumsystem.libtime.model.TimeSlot;
+import org.studiumsystem.libtime.repository.TaskRepository;
+import org.studiumsystem.libtime.repository.TimeSlotRepository;
+import org.studiumsystem.libtime.repository.UserRepository;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 
@@ -26,7 +24,7 @@ public class UserService {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
     //how to add in database?
     private final UserRepository userRepository;
-    private  final TimeSlotRepository timeSlotRepository;
+    private final TimeSlotRepository timeSlotRepository;
     private final PasswordEncoder passwordEncoder;
     private Logger logger = Logger.getLogger(UserService.class.getName());
 
@@ -55,14 +53,16 @@ public class UserService {
         timeSlot.setLocalDate(LocalDate.now());
         timeSlot.setStartTime(LocalTime.now());
         timeSlot.setUserId(libUser.getId());
+        timeSlot.setDuration("0s");
         timeSlotRepository.save(timeSlot);
     }
 
-    //get LibUser after successful authentication in log in
+    //get LibUser that already successful authenticated
     public LibUser getUserSuccessAuth(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username).orElseThrow();
     }
+
 
     //record going time
     //return learning duration
@@ -78,17 +78,20 @@ public class UserService {
         Duration libDuration = Duration.between(start, end);
         timeSlot.setDuration(libDuration.toString());
         timeSlotRepository.save(timeSlot);
-        //duration in database in form "8h6m4s"
-        return libDuration.toString().replace("PT", "").toLowerCase();
+        return TimeSlot.durationToString(libDuration);
     }
 
     //get the timeslots of the current authenticated user in the current week
     public List<TimeSlot> getTimeSlots(){
         LibUser libUser = getUserSuccessAuth();
+        return  timeSlotRepository.findTimeSlotsCurrentWeekByUser(libUser.getId());
+    }
 
-        var l =  timeSlotRepository.findTimeSlotsCurrentWeekByUser(libUser.getId());
-        logger.info("List length: " + l.size());
-        return l;
+    //calculate the sum of the duration of Timeslot lists, result in string form
+    public String getSumDuration(List<TimeSlot> list){
+        Duration durationOfSum = list.stream().map(TimeSlot::getDurationInstance)
+                .reduce(Duration.ZERO, Duration::plus);
+        return TimeSlot.durationToString(durationOfSum);
     }
 
 }

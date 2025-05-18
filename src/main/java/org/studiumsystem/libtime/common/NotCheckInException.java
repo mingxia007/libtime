@@ -1,4 +1,4 @@
-package org.studiumsystem.libtime.login.common;
+package org.studiumsystem.libtime.common;
 
 public class NotCheckInException extends RuntimeException{
 }

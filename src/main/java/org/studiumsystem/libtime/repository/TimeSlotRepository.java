@@ -1,8 +1,8 @@
-package org.studiumsystem.libtime.login.repository;
+package org.studiumsystem.libtime.repository;
 
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.studiumsystem.libtime.login.model.TimeSlot;
+import org.studiumsystem.libtime.model.TimeSlot;
 
 import java.time.LocalDate;
 import java.util.List;

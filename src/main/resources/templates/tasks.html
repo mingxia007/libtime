@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+</head>
+
+<body>
+  <h1>To Do List</h1>
+    <ol>
+      <li th:each="task: ${tasks}">
+        <span th:text="'Task: ' + ${task.content}"></span>
+        <form th:action="@{'/tasks/finished_' +${task.id} }" method="post">
+          <input type="hidden" name="_method" value="put" />
+          <button type="submit">Finished</button>
+        </form>
+      </li>
+    </ol>
+  <form action="/tasks" method="post">
+    Task: <input type="text" name="content">
+    <button type="submit">Add new task</button>
+  </form>
+</body>
+</html>

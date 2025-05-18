@@ -1,3 +1,4 @@
+/*
 INSERT INTO timeslots(local_date, start_time, end_time, duration, user_id)
 VALUES ('2025-04-27', null, null, '06h21m30s' ,1),
        ('2025-04-28', null, null, '11h21m11s', 1),
@@ -15,3 +16,4 @@ VALUES ('2025-04-27', null, null, '06h21m30s' ,1),
        ('2025-05-14', null, null, '10h06m15s', 1),
        ('2025-05-15', null, null, '12h03m33s', 1),
        ('2025-05-16', null, null, '13h03m21s', 1);
+*/

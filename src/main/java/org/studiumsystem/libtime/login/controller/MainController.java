@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.studiumsystem.libtime.login.common.NotCheckInException;
-import org.studiumsystem.libtime.login.service.UserSessionManagementService;
+import org.studiumsystem.libtime.login.model.TimeSlot;
 import org.studiumsystem.libtime.login.service.UserService;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -18,12 +19,16 @@ public class MainController {
     private UserService userService;
     private Logger logger = Logger.getLogger(MainController.class.getName());
 
-    public MainController(UserService userService, UserSessionManagementService session){
+    public MainController(UserService userService){
         this.userService = userService;
     }
 
     @GetMapping("/main")
     public String getMain(Model model){
+        //show user duration data in the last week
+        List<TimeSlot> timeSlotsCurrentWeek = userService.getTimeSlots();
+        logger.info(timeSlotsCurrentWeek.toString());
+        model.addAttribute("timeslotsToShow", timeSlotsCurrentWeek);
         return "main";
     }
 

@@ -1,4 +1,4 @@
---DROP TABLE IF EXISTS timeslots;
+DROP TABLE IF EXISTS timeslots;
 --DROP TABLE IF EXISTS users;
 
 

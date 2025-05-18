@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.studiumsystem.libtime.login.service.UserSessionManagementService;
 import org.studiumsystem.libtime.login.service.UserService;
 
 import java.util.logging.Logger;
@@ -19,7 +18,6 @@ public class LoginController {
     private Logger logger = Logger.getLogger(LoginController.class.getName());
 
     public LoginController(UserService userService,
-                           UserSessionManagementService session,
                            PasswordEncoder passwordEncoder,
                            UserDetailsService userDetailsService){
         this.userService = userService;

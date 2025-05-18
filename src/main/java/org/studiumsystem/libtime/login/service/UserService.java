@@ -1,9 +1,8 @@
 package org.studiumsystem.libtime.login.service;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.studiumsystem.libtime.login.common.NotCheckInException;
@@ -15,26 +14,28 @@ import org.studiumsystem.libtime.login.repository.UserRepository;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 
 @Service
 public class UserService {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
     //how to add in database?
     private final UserRepository userRepository;
     private  final TimeSlotRepository timeSlotRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private Logger logger = Logger.getLogger(UserService.class.getName());
 
     public UserService(UserRepository userRepository,
                        TimeSlotRepository timeSlotRepository,
-                       PasswordEncoder passwordEncoder,
-                       AuthenticationManager authenticationManager){
+                       PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.timeSlotRepository = timeSlotRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
     }
 
     public void createUser(String username, String password){
@@ -58,7 +59,7 @@ public class UserService {
     }
 
     //get LibUser after successful authentication in log in
-    private LibUser getUserSuccessAuth(){
+    public LibUser getUserSuccessAuth(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByUsername(username).orElseThrow();
     }
@@ -81,6 +82,13 @@ public class UserService {
         return libDuration.toString().replace("PT", "").toLowerCase();
     }
 
+    //get the timeslots of the current authenticated user in the current week
+    public List<TimeSlot> getTimeSlots(){
+        LibUser libUser = getUserSuccessAuth();
 
+        var l =  timeSlotRepository.findTimeSlotsCurrentWeekByUser(libUser.getId());
+        logger.info("List length: " + l.size());
+        return l;
+    }
 
 }

@@ -76,7 +76,9 @@ public class UserService {
         LocalTime end = LocalTime.now();
         timeSlot.setEndTime(end);
         Duration libDuration = Duration.between(start, end);
-        timeSlot.setDuration(libDuration.toString());
+        //change duration to the string formal in database
+        String date = TimeSlot.durationToString(libDuration);
+        timeSlot.setDuration(date);
         timeSlotRepository.save(timeSlot);
         return TimeSlot.durationToString(libDuration);
     }

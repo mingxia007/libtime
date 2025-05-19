@@ -30,6 +30,7 @@ public class TimeSlot {
         return Duration.parse(toParse);
     }
 
+    //pass duration to string in form 10h10m10s
     public static String durationToString(Duration duration){
         return duration.toString().replace("PT", "").toLowerCase();
     }

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Long> {
 
     //find the timeslot record of a specific user at a specific day
-    @Query("SELECT * FROM timeslots WHERE  user_id = :userid")
+    @Query("SELECT * FROM timeslots WHERE  user_id = :userid AND local_date = :localDate")
     Optional<TimeSlot> findTimeSlotByUserAndDate(long userid, LocalDate localDate);
 
     //find the timeslots of the current week of a specific user

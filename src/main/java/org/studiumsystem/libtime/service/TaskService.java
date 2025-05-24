@@ -40,4 +40,8 @@ public class TaskService {
         taskRepository.updateTaskFinishedById(id);
     }
 
+    public void editTask(long id, String contentEdit){
+        taskRepository.updateTaskContentById(id, contentEdit);
+    }
+
 }

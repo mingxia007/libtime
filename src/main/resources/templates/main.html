@@ -4,26 +4,56 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
     <title>Title</title>
 </head>
+
 <body>
-    <h1>Your records in the current week</h1>
-    <h2 th:text="'You have stayed ' + ${totalTime} +' in library this week'"></h2>
-    <table>
-        <tr th:each="timeslot: ${timeslotsToShow}">
-            <td th:text="'Date: '+ ${timeslot.localDate}" />
-            <td th:text="' Stayed time: ' + ${timeslot.duration}" />
-        </tr>
-    </table>
-    <h1>Select to check in or out</h1>
-    <form action="/main/checkin" method="post">
-        <button type="submit">I come to the library</button>
-    </form>
-    <form action="/main/checkout" method="post">
-        <button type="submit">I go now</button>
-    </form>
-    <br/>
-    <a href="/tasks">See my to do list</a> <br />
-    <a href="/logout">log out</a>
+    <nav>
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/tasks">To do List</a></li>
+            <li><a href="/logout">Log out</a> </li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="records">
+            <h1>Your records in the current week</h1>
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Stayed Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="timeslot: ${timeslotsToShow}">
+                        <td th:text= "${timeslot.localDate}" />
+                        <td th:text="${timeslot.duration}" />
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total: </td>
+                        <td th:text="${totalTime}"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <section class="check">
+            <h1>Select to check in or out</h1>
+            <div class="button">
+                <form action="/main/checkin" method="post">
+                    <button type="submit">I come to the library</button>
+                </form>
+                <form action="/main/checkout" method="post">
+                    <button type="submit">I go now</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
 </body>
 </html>

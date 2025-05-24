@@ -45,10 +45,20 @@ public class TaskController {
         return "tasks";
     }
 
+    //finish a task
     @PutMapping("/tasks/finished_{id}")
     public String finishedTask(@PathVariable long id){
         logger.info("finished_id: " + id);
         taskService.finishTask(id);
+        return "redirect:/tasks";
+    }
+
+    //edit the content of a task
+    //use request body?
+    @PutMapping("/tasks/edit_{id}")
+    public String editTask(@PathVariable long id){
+        logger.info("finished_id: " + id);
+        //taskService.editTask(id);
         return "redirect:/tasks";
     }
 

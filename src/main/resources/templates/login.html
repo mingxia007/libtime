@@ -2,20 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
     <title>Login in</title>
 </head>
+
 <body>
-<h1>Welcome to libtime</h1>
-<form action="/libtime" method="post">
-    Username: <input type="text" name="username"> <br />
-    Password: <input type="text"  name="password"> <br />
-    <button type="submit">login in</button>
-</form>
-<p th:text="${error}" />
-<br />
-<p>Dont have account?</p>
-<form th:action="@{/register}" th:method="get">
-    <button type="submit">sign up </button>
-</form>
+<h1>libtime</h1>
+<div class="logform">
+    <form action="/libtime" method="post">
+        <label class="input">
+            Username: <input type="text" name="username"> <br />
+        </label>
+        <label class="input">
+            Password: <input type="text"  name="password"> <br />
+        </label>
+        <button type="submit">login in</button>
+    </form>
+</div>
+<p th:text="${error}"> </p><br />
+
+<div class="signup">
+    <p>Dont have account?</p>
+    <form th:action="@{/register}" th:method="get">
+        <label>
+            <button type="submit">sign up </button>
+        </label>
+    </form>
+</div>
 </body>
+
 </html>
+

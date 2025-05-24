@@ -19,16 +19,29 @@
       <table class="todolist">
         <thead>
           <tr>
-            <th colspan="2">To Do List</th>
+            <th colspan="3">To Do List</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="task: ${tasks}">
-            <td th:text= "${task.content}" />
-            <td>
+            <td th:if="${editId == task.id}">
+              <form th:action="@{'/tasks/update_' + ${task.id}}" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <input type="text" name="content" th:value="${task.content}">
+                <button type="submit">Save</button>
+              </form>
+            </td>
+
+            <td th:unless="${editId == task.id}" th:text= "${task.content}" />
+            <td th:unless="${editId == task.id}">
               <form th:action="@{'/tasks/finished_' +${task.id}}" method="post">
                 <input type="hidden" name="_method" value="put" />
                 <button type="submit">Finished</button>
+              </form>
+            </td>
+            <td th:unless="${editId == task.id}">
+              <form th:action="@{'/tasks/edit_' +${task.id}}" method="post">
+                <button type="submit">Edit</button>
               </form>
             </td>
           </tr>

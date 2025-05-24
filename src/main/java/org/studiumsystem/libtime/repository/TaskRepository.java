@@ -19,5 +19,5 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 
     @Modifying
     @Query("UPDATE tasks SET content = :contentEdit WHERE id = :id")
-    void updateTaskContentById(long id, String contentEidt);
+    void updateTaskContentById(long id, String contentEdit);
 }

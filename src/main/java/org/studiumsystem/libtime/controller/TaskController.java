@@ -4,6 +4,7 @@ import org.apache.juli.logging.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.studiumsystem.libtime.model.LibUser;
 import org.studiumsystem.libtime.model.Task;
 import org.studiumsystem.libtime.service.TaskService;
@@ -53,12 +54,21 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-    //edit the content of a task
-    //use request body?
-    @PutMapping("/tasks/edit_{id}")
-    public String editTask(@PathVariable long id){
-        logger.info("finished_id: " + id);
-        //taskService.editTask(id);
+
+
+    @PostMapping("/tasks/edit_{id}")
+    public String editTask(@PathVariable long id,
+                           RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("editId", id);
+        return "redirect:/tasks";
+    }
+
+
+    @PutMapping("/tasks/update_{id}")
+    public String updateTask(@PathVariable long id,
+                             @RequestParam String content){
+        logger.info("New content: " + content);
+        taskService.updateTask(id, content);
         return "redirect:/tasks";
     }
 

@@ -40,7 +40,7 @@ public class MainController {
     @PostMapping("/main/checkin")
     public String checkIn(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute(
-                "message", "Now have a nice learning time in the biblothek!");
+                "message", "Now have a nice learning time in the library!");
         userService.checkIn();
         return "redirect:/main/stage";
     }

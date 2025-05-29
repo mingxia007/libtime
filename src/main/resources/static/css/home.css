@@ -27,6 +27,9 @@ section{
     line-height: 20px;
     margin-top: 20px;
 }
+section.tasks{
+    width: 40%;
+}
 
 table{
     width: 90%;
@@ -46,7 +49,7 @@ thead th{
 
 
 th,td{
-    padding: 5px;
+    padding: 5px 5px 5px 30px;
 }
 
 tfoot td{
@@ -60,4 +63,15 @@ table button{
     font-size: small;
     border-radius: 2px;
     margin-top: 0;
+}
+
+div.task-items-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    gap: 4px;
+    padding-right: 5%;
+}
+div.task-items-container button{
+    border-radius: 2px;
 }

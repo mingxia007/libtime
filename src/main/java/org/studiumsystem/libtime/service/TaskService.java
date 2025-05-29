@@ -44,4 +44,8 @@ public class TaskService {
         taskRepository.updateTaskContentById(id, contentEdit);
     }
 
+    public void deleteTask(long id){
+        taskRepository.deleteTaskById(id);
+    }
+
 }

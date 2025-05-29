@@ -55,8 +55,7 @@ public class TaskController {
     }
 
 
-
-    @PostMapping("/tasks/edit_{id}")
+    @PutMapping("/tasks/edit_{id}")
     public String editTask(@PathVariable long id,
                            RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("editId", id);
@@ -64,11 +63,18 @@ public class TaskController {
     }
 
 
+    //update datasource with new task content
     @PutMapping("/tasks/update_{id}")
     public String updateTask(@PathVariable long id,
                              @RequestParam String content){
-        logger.info("New content: " + content);
         taskService.updateTask(id, content);
+        return "redirect:/tasks";
+    }
+
+
+    @DeleteMapping("/tasks/delete_{id}")
+    public String deleteTask(@PathVariable long id){
+        taskService.deleteTask(id);
         return "redirect:/tasks";
     }
 

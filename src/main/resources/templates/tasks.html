@@ -8,54 +8,79 @@
 
 <body>
 
-  <nav>
+<nav>
     <ul>
-      <li><a href="/main">Home</a></li>
-      <li><a href="/logout">Log out</a> </li>
+        <li><a href="/main">Home</a></li>
+        <li><a href="/logout">Log out</a></li>
+        <li><a href="/tasks">To do List</a></li>
     </ul>
-  </nav>
-  <main>
-    <section>
-      <table class="todolist">
-        <thead>
-          <tr>
-            <th colspan="3">To Do List</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="task: ${tasks}">
-            <td th:if="${editId == task.id}">
-              <form th:action="@{'/tasks/update_' + ${task.id}}" method="post">
-                <input type="hidden" name="_method" value="put" />
-                <input type="text" name="content" th:value="${task.content}">
-                <button type="submit">Save</button>
-              </form>
-            </td>
+</nav>
+<main>
+    <section class="tasks">
 
-            <td th:unless="${editId == task.id}" th:text= "${task.content}" />
-            <td th:unless="${editId == task.id}">
-              <form th:action="@{'/tasks/finished_' +${task.id}}" method="post">
-                <input type="hidden" name="_method" value="put" />
-                <button type="submit">Finished</button>
-              </form>
-            </td>
-            <td th:unless="${editId == task.id}">
-              <form th:action="@{'/tasks/edit_' +${task.id}}" method="post">
-                <button type="submit">Edit</button>
-              </form>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <div class="todolist">
+            <div class="title">
+                <p>To Do List</p>
+            </div>
+                <div class="task-items-container" th:each="task: ${tasks}">
 
-      <form action="/tasks" method="post">
-        <label>
-          Task: <input type="text" name="content">
-        </label>
-        <button type="submit">Add new task</button>
-      </form>
+                    <!--only the button of the changed task disapear-->
+                    <div class="task-items-button">
+                        <div th:if="${editId == task.id}">
+                            <form th:action="@{'/tasks/update_' + ${task.id}}" method="post">
+                                <input type="hidden" name="_method" value="put"/>
+                                <input type="text" name="content" th:value="${task.content}">
+                                <button type="submit">Save</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="task-items-button">
+                        <div th:unless="${editId == task.id}">
+                           <p th:text="${task.content}"></p>
+                        </div>
+                    </div>
+
+
+                    <div class="task-items-button">
+                        <div th:unless="${editId == task.id}">
+                            <form th:action="@{'/tasks/finished_' +${task.id}}" method="post">
+                                <input type="hidden" name="_method" value="put"/>
+                                <button type="submit">Finished</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="task-items-button">
+                        <div th:unless="${editId == task.id}">
+                            <form th:action="@{'/tasks/edit_' +${task.id}}" method="post">
+                                <input type="hidden" name="_method" value="put"/>
+                                <button type="submit">Edit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="task-items-button">
+                        <div th:unless="${editId == task.id}">
+                            <form th:action="@{'/tasks/delete_' +${task.id}}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <form action="/tasks" method="post">
+            <label>
+                Task: <input type="text" name="content">
+            </label>
+            <button type="submit">Add new task</button>
+        </form>
+
+        </div>
     </section>
-  </main>
+</main>
 
 </body>
 </html>

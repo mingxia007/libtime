@@ -2,14 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="../static/css/home.css" th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
     <title>Info</title>
 </head>
 <body>
-    <p th:text="${message}" />
-    <p th:if="${message}">
-        <span th:text="'Today you stayed in library: ' + ${duration}" /> <br />
-        <a th:href="@{/main}">I want to come back to homepage</a> <br />
-        <a th:href="@{/libtime}">I want log out</a>
-    </p>
+    <nav>
+        <ul>
+            <li><a href="/main">Home</a></li>
+            <li><a href="/tasks">To do List</a></li>
+            <li><a href="/logout">Log out</a> </li>
+        </ul>
+    </nav>
+    <main>
+        <section>
+            <h1 th:text="${message}" />
+            <h1 th:if="${message}" th:text="'Today you stayed in library: ' + ${duration}">
+            </h1>
+        </section>
+    </main>
 </body>
 </html>
